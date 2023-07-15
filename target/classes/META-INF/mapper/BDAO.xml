@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.ormDAO.BDAO">
+
+	<!-- 회원 조회  -->
+	<select id="list" resultType="com.spring.ormVO.BVO">
+		SELECT /*+   list  */
+		       bId
+		     , bName||'_'||ROWNUM as bName
+		     , bContent 
+		  FROM MYBATIS_BBS 
+	     ORDER BY BID DESC
+	</select>
+
+
+	<!-- 회원 저장  -->
+	<insert id="writeOk">
+		insert /*+   writeOk  */
+		       into mybatis_bbs
+		     ( bId
+		     , bName
+		     , bContent
+		     ) 
+		values
+		     ( seq_mybatis_bbs.nextval
+		     , #{param1}
+		     , seq_mybatis_bbs.currval||'_'||#{param2}
+		     )
+	</insert>
+
+
+	<!-- 회원 삭제  -->
+	<delete id="delete">
+		delete /*+   delete  */
+		       from mybatis_bbs 
+		 where bId = #{param1}
+	</delete>
+	
+	
+</mapper>
